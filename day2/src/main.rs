@@ -7,12 +7,9 @@ enum Command {
 }
 
 fn parse_line(line: &str) -> Option<Command> {
-    let command = line.split(' ').next()?;
-    let value = line
-        .split(' ')
-        .skip(1)
-        .next()
-        .and_then(|v| v.parse::<usize>().ok())?;
+    let mut line_iter = line.split(' ');
+    let command = line_iter.next()?;
+    let value = line_iter.next().and_then(|v| v.parse::<usize>().ok())?;
     match command {
         "forward" => Some(Command::Forward(value)),
         "down" => Some(Command::Down(value)),
