@@ -27,9 +27,9 @@ fn part_1(commands: &[Command]) -> usize {
 
     for command in commands {
         match command {
-            Command::Forward(v) => position = position + v,
-            Command::Down(v) => depth = depth + v,
-            Command::Up(v) => depth = depth - v,
+            Command::Forward(v) => position += v,
+            Command::Down(v) => depth += v,
+            Command::Up(v) => depth -= v,
         }
     }
     position * depth
@@ -43,11 +43,11 @@ fn part_2(commands: &[Command]) -> usize {
     for command in commands {
         match command {
             Command::Forward(v) => {
-                position = position + v;
-                depth = depth + aim * v;
+                position += v;
+                depth += aim * v;
             }
-            Command::Down(v) => aim = aim + v,
-            Command::Up(v) => aim = aim - v,
+            Command::Down(v) => aim += v,
+            Command::Up(v) => aim -= v,
         }
     }
     position * depth
@@ -62,5 +62,5 @@ fn main() {
         .collect::<Vec<_>>();
 
     println!("Part 1: {}", part_1(&commands));
-    println!("Part 1: {}", part_2(&commands));
+    println!("Part 2: {}", part_2(&commands));
 }
