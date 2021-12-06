@@ -5,11 +5,10 @@ struct LanternfishPool {
 }
 
 impl LanternfishPool {
-    fn from_list(input: &[u8]) -> Self {
+    fn from_slice(input: &[u8]) -> Self {
         let mut map = HashMap::new();
         for &fish in input.iter() {
-            let entry = map.entry(fish).or_insert(0);
-            *entry += 1;
+            *map.entry(fish).or_default() += 1;
         }
 
         LanternfishPool { map }
@@ -19,19 +18,10 @@ impl LanternfishPool {
         let mut new_map = HashMap::new();
         for (&age, &count) in self.map.iter() {
             if age == 0 {
-                // those who gave birth
-                let new_age = 6;
-                let entry = new_map.entry(new_age).or_insert(0);
-                *entry += count;
-
-                // new ones
-                let new_age = 8;
-                let entry = new_map.entry(new_age).or_insert(0);
-                *entry += count;
+                *new_map.entry(6).or_default() += count;
+                *new_map.entry(8).or_default() += count;
             } else {
-                let new_age = age - 1;
-                let entry = new_map.entry(new_age).or_insert(0);
-                *entry += count;
+                *new_map.entry(age - 1).or_default() += count;
             }
         }
         self.map = new_map;
@@ -43,7 +33,7 @@ impl LanternfishPool {
 }
 
 fn part_1(input: &[u8]) -> usize {
-    let mut pool = LanternfishPool::from_list(input);
+    let mut pool = LanternfishPool::from_slice(input);
     for _ in 0..80 {
         pool.age();
     }
@@ -51,7 +41,7 @@ fn part_1(input: &[u8]) -> usize {
 }
 
 fn part_2(input: &[u8]) -> usize {
-    let mut pool = LanternfishPool::from_list(input);
+    let mut pool = LanternfishPool::from_slice(input);
     for _ in 0..256 {
         pool.age();
     }
@@ -63,7 +53,7 @@ fn main() {
 
     let input = input
         .split(',')
-        .map(|v| v.parse::<u8>().expect("Cannot parse usize"))
+        .map(|v| v.parse::<u8>().unwrap())
         .collect::<Vec<_>>();
 
     println!("Part 1: {}", part_1(&input));
