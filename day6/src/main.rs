@@ -36,6 +36,10 @@ impl LanternfishPool {
         }
         self.map = new_map;
     }
+
+    fn count(&self) -> usize {
+        self.map.values().sum()
+    }
 }
 
 fn part_1(input: &[u8]) -> usize {
@@ -43,7 +47,7 @@ fn part_1(input: &[u8]) -> usize {
     for _ in 0..80 {
         pool.age();
     }
-    pool.map.values().sum()
+    pool.count()
 }
 
 fn part_2(input: &[u8]) -> usize {
@@ -51,7 +55,7 @@ fn part_2(input: &[u8]) -> usize {
     for _ in 0..256 {
         pool.age();
     }
-    pool.map.values().sum()
+    pool.count()
 }
 
 fn main() {
